@@ -1,0 +1,86 @@
+name: ButtonCommands
+main: no.HON95.ButtonCommands.BCMain
+version: 1.8
+author: HON95
+website: http://dev.bukkit.org/server-mods/buttoncommands/
+description: Sends a command through a button.
+
+commands:
+  buttoncommands:
+    description: ButtonCommands main command.
+    aliases: bc
+  get:
+    description: Gives the player stuff.
+    aliases: g
+  creative:
+    description: Changes the players gamemode to creative.
+  survival:
+    description: Changes the players gamemode to survival.
+  invclear:
+    description: Clears the players inventory.
+    aliases: ic
+  iteminfo:
+    description: Info about item in hand.
+    aliases: ii
+  chat:
+    description: Sends a chat message.
+
+permissions:
+    buttoncommands.*:
+        description: Access to all ButtonCommands features.
+        default: op
+        children:
+            buttoncommands.create.normal: true
+            buttoncommands.create.console: true
+            buttoncommands.create.redstone: true
+            buttoncommands.create.alias: true
+            buttoncommands.break.normal: true
+            buttoncommands.break.console: true
+            buttoncommands.break.redstone: true
+            buttoncommands.break.alias: true
+            buttoncommands.use.normal: true
+            buttoncommands.use.console: true
+            buttoncommands.use.alias: true
+            buttoncommands.buttoncommands: true
+            buttoncommands.reload: true
+            buttoncommands.get: true
+            buttoncommands.gamemode: true
+            buttoncommands.invclear: true
+            buttoncommands.chat: true
+            buttoncommands.iteminfo: true
+    buttoncommands.create.normal:
+        description: Access to creating normal commands igns.
+    buttoncommands.create.console:
+        description: Access to creating console command signs.
+    buttoncommands.create.redstone:
+        description: Access to creating console command signs.
+    buttoncommands.create.alias:
+        description: Access to creating alias command signs.
+    buttoncommands.break.normal:
+        description: Access to breaking normal command signs.
+    buttoncommands.break.console:
+        description: Access to breaking console command signs.
+    buttoncommands.break.redstone:
+        description: Access to breaking console command signs.
+    buttoncommands.break.alias:
+        description: Access to breaking alias command signs.
+    buttoncommands.use.normal:
+        description: Access to use normal buttoncommands.
+    buttoncommands.use.console:
+        description: Access to use console buttoncommands.
+    buttoncommands.use.alias:
+        description: Access to use alias buttoncommands.
+    buttoncommands.buttoncommands:
+        description: Access to buttoncommands command.
+    buttoncommands.reload:
+        description: Access to reload plugin.
+    buttoncommands.get:
+        description: Access to get command.
+    buttoncommands.gamemode:
+        description: Access to gamemode commands.
+    buttoncommands.invclear:
+        description: Access to invclear command.
+    buttoncommands.chat:
+        description: Access to chat command.
+    buttoncommands.iteminfo:
+        description: Access to iteminfo command.
