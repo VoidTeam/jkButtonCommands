@@ -15,7 +15,7 @@ class SignChangeListener implements Listener {
 	boolean titleCentered = false;
 
 	private final ChatColor GN = ChatColor.GREEN;
-	private final ChatColor R = ChatColor.RED;
+	private final ChatColor RE = ChatColor.RED;
 	private final ChatColor DP = ChatColor.DARK_PURPLE;
 	private final ChatColor DB = ChatColor.DARK_BLUE;
 	private final ChatColor UL = ChatColor.UNDERLINE;
@@ -56,7 +56,7 @@ class SignChangeListener implements Listener {
 				}
 				else {
 					ev.setCancelled(true);
-					player.sendMessage(R + "You are not allowed to create redstone command signs!");
+					player.sendMessage(RE + "You are not allowed to create redstone command signs!");
 				}
 			}
 			else if (cmd[0].startsWith("/console ") || cmd[0].startsWith("/c ")) {
@@ -72,7 +72,7 @@ class SignChangeListener implements Listener {
 				}
 				else {
 					ev.setCancelled(true);
-					player.sendMessage(R + "You are not allowed to create console command signs!");
+					player.sendMessage(RE + "You are not allowed to create console command signs!");
 				}
 			}
 			else if (cmd[0].startsWith("/alias ") || cmd[0].startsWith("/a ")) {
@@ -88,7 +88,7 @@ class SignChangeListener implements Listener {
 				}
 				else {
 					ev.setCancelled(true);
-					player.sendMessage(R + "You are not allowed to create alias command signs!");
+					player.sendMessage(RE + "You are not allowed to create alias command signs!");
 				}
 			}
 			else {
@@ -104,7 +104,7 @@ class SignChangeListener implements Listener {
 				}
 				else {
 					ev.setCancelled(true);
-					player.sendMessage(R + "You are not allowed to create command signs!");
+					player.sendMessage(RE + "You are not allowed to create command signs!");
 				}
 			}
 		}

@@ -35,9 +35,6 @@ class RedstoneListener implements Listener {
 
 		Sign sign = (Sign) block.getState();
 		String[] lines = sign.getLines();
-		lines[1] = lines[1].trim();
-		lines[2] = lines[2].trim();
-		lines[3] = lines[3].trim();
 
 		if (!lines[1].startsWith("/"))
 			return;

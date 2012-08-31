@@ -343,7 +343,7 @@ class Commands implements CommandExecutor {
 		else if (args.length > 0) {
 			if (args[0].equalsIgnoreCase("reload")) {
 				if (sender.hasPermission("buttoncommands.buttoncommands")) {
-					PLUGIN.configClass.load();
+					PLUGIN.CNF.load();
 					Misc.checkVersion(PLUGIN, BCMain.UC_URL);
 					sender.sendMessage(GN + "ButtonCommands successfully reloaded!");
 				}

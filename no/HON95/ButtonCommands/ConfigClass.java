@@ -97,23 +97,23 @@ class ConfigClass {
 
 		PLUGIN.enable = config.getBoolean("pluginUpdateCheck");
 		PLUGIN.updateCheck = config.getBoolean("enable");
-		PLUGIN.signChangeListener.titleUnderlined = config.getBoolean("signTitleUnderlined");
-		PLUGIN.signChangeListener.titleCentered = config.getBoolean("signTitleCentered");
-		PLUGIN.playerInteractListener.enableNormal = config.getBoolean("enabledSigns.normal");
-		PLUGIN.playerInteractListener.enableConsole = config.getBoolean("enabledSigns.console");
-		PLUGIN.playerInteractListener.enableAlias = config.getBoolean("enabledSigns.alias");
-		PLUGIN.playerInteractListener.enableBL = config.getBoolean("bonus.ghostLever");
-		PLUGIN.playerInteractListener.curPerm = config.getBoolean("current.hasPerm");
-		PLUGIN.playerInteractListener.curNoPerm = config.getBoolean("current.missingPerm");
-		PLUGIN.playerInteractListener.ignoreWhiteLists = config.getBoolean("ignoreWhiteLists");
-		PLUGIN.playerInteractListener.outputInfo = config.getBoolean("output.redstone");
-		PLUGIN.playerInteractListener.leftClick = config.getBoolean("interact.left_click");
-		PLUGIN.playerInteractListener.rightClick = config.getBoolean("interact.right_click");
-		PLUGIN.redstoneListener.enableRedstone = config.getBoolean("enabledSigns.redstone");
-		PLUGIN.redstoneListener.ignoreWhiteLists = config.getBoolean("ignoreWhiteLists");
-		PLUGIN.redstoneListener.outputInfo = config.getBoolean("output.redstone");
-		PLUGIN.blockBreakListener.protectSign = config.getBoolean("protect.sign");
-		PLUGIN.blockBreakListener.protectBlock = config.getBoolean("protect.block");
+		PLUGIN.SCL.titleUnderlined = config.getBoolean("signTitleUnderlined");
+		PLUGIN.SCL.titleCentered = config.getBoolean("signTitleCentered");
+		PLUGIN.PIL.enableNormal = config.getBoolean("enabledSigns.normal");
+		PLUGIN.PIL.enableConsole = config.getBoolean("enabledSigns.console");
+		PLUGIN.PIL.enableAlias = config.getBoolean("enabledSigns.alias");
+		PLUGIN.PIL.enableBL = config.getBoolean("bonus.ghostLever");
+		PLUGIN.PIL.curPerm = config.getBoolean("current.hasPerm");
+		PLUGIN.PIL.curNoPerm = config.getBoolean("current.missingPerm");
+		PLUGIN.PIL.ignoreWhiteLists = config.getBoolean("ignoreWhiteLists");
+		PLUGIN.PIL.outputInfo = config.getBoolean("output.redstone");
+		PLUGIN.PIL.leftClick = config.getBoolean("interact.left_click");
+		PLUGIN.PIL.rightClick = config.getBoolean("interact.right_click");
+		PLUGIN.REL.enableRedstone = config.getBoolean("enabledSigns.redstone");
+		PLUGIN.REL.ignoreWhiteLists = config.getBoolean("ignoreWhiteLists");
+		PLUGIN.REL.outputInfo = config.getBoolean("output.redstone");
+		PLUGIN.BBL.protectSign = config.getBoolean("protect.sign");
+		PLUGIN.BBL.protectBlock = config.getBoolean("protect.block");
 	}
 
 	void initWhiteList() {
@@ -142,8 +142,8 @@ class ConfigClass {
 		con.addAll(sha);
 		red.addAll(sha);
 		
-		PLUGIN.playerInteractListener.whiteList = new HashSet<String>(con);
-		PLUGIN.redstoneListener.whiteList = new HashSet<String>(red);
+		PLUGIN.PIL.whiteList = new HashSet<String>(con);
+		PLUGIN.REL.whiteList = new HashSet<String>(red);
 	}
 
 	void initAlias() {

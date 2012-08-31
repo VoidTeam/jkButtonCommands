@@ -17,12 +17,12 @@ public class BCMain extends JavaPlugin {
 
 	public static final String UC_URL = "http://hon95.kodingen.com/Bukkit/Version";
 
-	final PlayerInteractListener playerInteractListener = new PlayerInteractListener(this);
-	final RedstoneListener redstoneListener = new RedstoneListener(this);
-	final BlockBreakListener blockBreakListener = new BlockBreakListener(this);
-	final SignChangeListener signChangeListener = new SignChangeListener(this);
-	final Commands commands = new Commands(this);
-	final ConfigClass configClass = new ConfigClass(this);
+	final PlayerInteractListener PIL = new PlayerInteractListener(this);
+	final RedstoneListener REL = new RedstoneListener(this);
+	final BlockBreakListener BBL = new BlockBreakListener(this);
+	final SignChangeListener SCL = new SignChangeListener(this);
+	final Commands CMD = new Commands(this);
+	final ConfigClass CNF = new ConfigClass(this);
 
 	boolean enable = false;
 	boolean updateCheck = false;
@@ -30,7 +30,7 @@ public class BCMain extends JavaPlugin {
 	@Override
 	public void onEnable() {
 
-		configClass.load();
+		CNF.load();
 
 		if (!enable) {
 			this.getLogger().warning("Plugin will be disabled!");
@@ -39,18 +39,18 @@ public class BCMain extends JavaPlugin {
 		}
 
 		PluginManager pm = Bukkit.getPluginManager();
-		pm.registerEvents(playerInteractListener, this);
-		pm.registerEvents(redstoneListener, this);
-		pm.registerEvents(blockBreakListener, this);
-		pm.registerEvents(signChangeListener, this);
+		pm.registerEvents(PIL, this);
+		pm.registerEvents(REL, this);
+		pm.registerEvents(BBL, this);
+		pm.registerEvents(SCL, this);
 
-		this.getCommand("buttoncommands").setExecutor(commands);
-		this.getCommand("get").setExecutor(commands);
-		this.getCommand("creative").setExecutor(commands);
-		this.getCommand("survival").setExecutor(commands);
-		this.getCommand("invclear").setExecutor(commands);
-		this.getCommand("iteminfo").setExecutor(commands);
-		this.getCommand("chat").setExecutor(commands);
+		this.getCommand("buttoncommands").setExecutor(CMD);
+		this.getCommand("get").setExecutor(CMD);
+		this.getCommand("creative").setExecutor(CMD);
+		this.getCommand("survival").setExecutor(CMD);
+		this.getCommand("invclear").setExecutor(CMD);
+		this.getCommand("iteminfo").setExecutor(CMD);
+		this.getCommand("chat").setExecutor(CMD);
 
 		if (updateCheck)
 			Misc.checkVersion(this, UC_URL);
