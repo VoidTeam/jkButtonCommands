@@ -1,4 +1,4 @@
-ButtonCommands
+ButtonCommands v1.8
 ==============
 
 A plugin for Bukkit.
