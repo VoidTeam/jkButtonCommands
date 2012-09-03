@@ -208,7 +208,7 @@ final class PlayerInteractListener implements Listener {
 			player.sendMessage(RE + "You are not allowed to use console command signs!");
 			return (curNoPerm ? 2 : 1);
 		}
-		if (ignoreWhiteList || whiteList.contains(command.toLowerCase())) {
+		if (ignoreWhiteLists || whiteList.contains(command.toLowerCase())) {
 			if (outputInfo)
 				PLUGIN.getLogger().info(player.getName() + " executing console command: " + command);
 			player.sendMessage(GY + "Executing console command: " + command);
