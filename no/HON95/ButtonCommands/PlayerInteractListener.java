@@ -1,6 +1,9 @@
 package no.HON95.ButtonCommands;
 
+import Waterflames.websend.CommandParser;
+
 import java.util.Set;
+import java.util.concurrent.locks.Condition;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -33,6 +36,8 @@ final class PlayerInteractListener implements Listener {
 	boolean outputInfo = false;
 	boolean rightClick = false;
 	boolean leftClick = false;
+	
+	int taskid= 0;
 
 	private final ChatColor GY = ChatColor.GRAY;
 	private final ChatColor GO = ChatColor.GOLD;
@@ -185,6 +190,9 @@ final class PlayerInteractListener implements Listener {
 		else if (cmd[0].equalsIgnoreCase("a") && !alias) {
 			return aliasExecutor(player, block, cmd[1].replaceFirst("a ", ""));
 		}
+		else if (cmd[0].equalsIgnoreCase("wsbc")) {
+			return webSendExecutor(player, block, cmd[0].replaceFirst("wsbc ", ""), ignorePerms);
+		}
 		else if (enableNormal) {
 			if (ignorePerms || player.hasPermission("buttoncommands.use.normal")) {
 				player.chat("/" + cmd[1]);
@@ -275,4 +283,37 @@ final class PlayerInteractListener implements Listener {
 
 		return (a.C_HP ? 2 : 1);
 	}
+	
+	private int webSendExecutor(Player player, Block block, String command, boolean ignorePerms) {
+		
+		if (enableNormal) {
+			if (ignorePerms || player.hasPermission("buttoncommands.use.normal")) {
+				player.chat("/ws " + command);
+				
+				//taskid = Bukkit.getScheduler().scheduleAsyncRepeatingTask(PLUGIN, new Runnable() {
+
+					   //public void run() {
+						//   if (redstoneOn == true)
+						//   {
+						//       Bukkit.getScheduler().cancelTask(taskid);
+						//       return (curPerm ? 2 : 1);
+						//   }
+					    //   System.out.println("Checking for RedstoneOn");
+					   //}
+					//}, 0L, 5L);
+		        
+				//If RedstoneOn = true then return 2, otherwise return 0
+				
+				
+				return 1;
+			}
+			else {
+				player.sendMessage(RE + "You are not allowed to use WebSend command signs!");
+				return 0;
+			}
+		}
+		return 0;
+		
+	}
+	
 }
