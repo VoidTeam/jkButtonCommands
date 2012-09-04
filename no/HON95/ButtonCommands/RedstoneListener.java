@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -20,7 +21,7 @@ class RedstoneListener implements Listener
 	boolean enableRedstone = false;
 	boolean ignoreWhiteLists = false;
 	boolean outputInfo = false;
-	boolean recent = false;
+	int recentblock;
 
 	RedstoneListener(BCMain instance)
 	{
@@ -33,9 +34,6 @@ class RedstoneListener implements Listener
 
 		if (!enableRedstone)
 			return;
-		
-		if (recent) //Check if this is a double post
-			return;
 
 		if (ev.getNewCurrent() == 0)
 		{
@@ -43,7 +41,14 @@ class RedstoneListener implements Listener
 		}
 		
 		Block block = ev.getBlock();
+		
+		int blocklocation = block.getX() + block.getY() + block.getZ(); //Get block location
 
+		if (blocklocation == recentblock) //Check if this is a recently used block to prevent double post (within last tick)
+			return;
+
+		recentblock = block.getX() + block.getY() + block.getZ(); //Set this block as the recentblock locaiton
+		
 		if (!block.isBlockPowered() || block.getType() != Material.WALL_SIGN)
 			return;
 
@@ -75,15 +80,13 @@ class RedstoneListener implements Listener
 			PLUGIN.getServer().dispatchCommand(PLUGIN.getServer().getConsoleSender(), cmd[1]);
 		}
 		
-		recent = true; //Set recent to true to prevent a double post
-		
 		// Wait for 1 tick then mark recent as false after the double posting period has ended
 		Bukkit.getScheduler().scheduleSyncDelayedTask(PLUGIN, new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				recent = false;
+				recentblock = 0;
 			}
 		}, 1L);
 	}
