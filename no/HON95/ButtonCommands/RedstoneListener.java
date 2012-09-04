@@ -37,6 +37,11 @@ class RedstoneListener implements Listener
 		if (recent) //Check if this is a double post
 			return;
 
+		if (ev.getNewCurrent() == 0)
+		{
+			return;
+		}
+		
 		Block block = ev.getBlock();
 
 		if (!block.isBlockPowered() || block.getType() != Material.WALL_SIGN)
