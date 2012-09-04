@@ -2,12 +2,15 @@ package no.HON95.ButtonCommands;
 
 import java.util.Set;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockRedstoneEvent;
+import org.bukkit.material.Lever;
 
 class RedstoneListener implements Listener
 {
@@ -17,6 +20,7 @@ class RedstoneListener implements Listener
 	boolean enableRedstone = false;
 	boolean ignoreWhiteLists = false;
 	boolean outputInfo = false;
+	boolean recent = false;
 
 	RedstoneListener(BCMain instance)
 	{
@@ -28,6 +32,9 @@ class RedstoneListener implements Listener
 	{
 
 		if (!enableRedstone)
+			return;
+		
+		if (recent) //Check if this is a double post
 			return;
 
 		Block block = ev.getBlock();
@@ -62,5 +69,17 @@ class RedstoneListener implements Listener
 				PLUGIN.getLogger().info("Executing redstone console command: " + cmd[1]);
 			PLUGIN.getServer().dispatchCommand(PLUGIN.getServer().getConsoleSender(), cmd[1]);
 		}
+		
+		recent = true; //Set recent to true to prevent a double post
+		
+		// Wait for 1 tick then mark recent as false after the double posting period has ended
+		Bukkit.getScheduler().scheduleSyncDelayedTask(PLUGIN, new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				recent = false;
+			}
+		}, 1L);
 	}
 }
