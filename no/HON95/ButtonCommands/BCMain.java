@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-
 /**
  * ButtonCommands plugin for Bukkit.
  * 
@@ -13,7 +12,8 @@ import org.bukkit.plugin.java.JavaPlugin;
  * 
  */
 
-public class BCMain extends JavaPlugin {
+public class BCMain extends JavaPlugin
+{
 
 	public static final String UC_URL = "http://hon95.kodingen.com/Bukkit/Version";
 
@@ -28,11 +28,13 @@ public class BCMain extends JavaPlugin {
 	boolean updateCheck = false;
 
 	@Override
-	public void onEnable() {
+	public void onEnable()
+	{
 
 		CNF.load();
 
-		if (!enable) {
+		if (!enable)
+		{
 			this.getLogger().warning("Plugin will be disabled!");
 			this.getPluginLoader().disablePlugin(this);
 			return;

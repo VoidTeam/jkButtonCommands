@@ -10,8 +10,8 @@ import java.util.List;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-
-class ConfigClass {
+class ConfigClass
+{
 
 	private static BCMain PLUGIN;
 	private static YamlConfiguration config;
@@ -22,45 +22,31 @@ class ConfigClass {
 	private static File aliasFile;
 	private final String n = System.getProperty("line.separator");
 
-	private final String CONFIG_HEADER = "ButtonCommands v<v> by HON95 #"
-			+ n + "BukkitDEV page: http://dev.bukkit.org/server-mods/buttoncommands/"
-			+ n + "Config help page: http://dev.bukkit.org/server-mods/buttoncommands/pages/config-file/";
+	private final String CONFIG_HEADER = "ButtonCommands v<v> by HON95 #" + n + "BukkitDEV page: http://dev.bukkit.org/server-mods/buttoncommands/" + n + "Config help page: http://dev.bukkit.org/server-mods/buttoncommands/pages/config-file/";
 
-	private final String WHITELIST_HEADER = "ButtonCommands - Redstone & Console Command White-List"
-			+ n + "White-List help page: http://dev.bukkit.org/server-mods/buttoncommands/pages/white-list-config/"
-			+ n + ""
-			+ n + "This config lets you define what redstone and console commands"
-			+ n + "you want to white-list. It supports normal YAML lists."
-			+ n + ""
-			+ n + "console: Commands from \"/console\" or \"/c\" command signs."
-			+ n + "redstone: Commands from \"/redstone\" or \"/r\" command signs."
-			+ n + "console: Shared for both console and redstone commands signs.";
+	private final String WHITELIST_HEADER = "ButtonCommands - Redstone & Console Command White-List" + n + "White-List help page: http://dev.bukkit.org/server-mods/buttoncommands/pages/white-list-config/" + n + "" + n + "This config lets you define what redstone and console commands" + n + "you want to white-list. It supports normal YAML lists." + n + "" + n + "console: Commands from \"/console\" or \"/c\" command signs." + n + "redstone: Commands from \"/redstone\" or \"/r\" command signs." + n + "console: Shared for both console and redstone commands signs.";
 
-	private final String ALIAS_HEADER = "ButtonCommands - Alias Command Config"
-			+ n + "Alias help page: http://dev.bukkit.org/server-mods/buttoncommands/pages/alias-config/"
-			+ n + ""
-			+ n + "This config lets you add aliases, or custom commands, to be executed"
-			+ n + "from alias command signs. To use them, write \"/alias <theAlias>\""
-			+ n + "on the command sign, where <theAlias> is the alias you wantto execute."
-			+ n + ""
-			+ n + "You most likely want to check out the help page.";
+	private final String ALIAS_HEADER = "ButtonCommands - Alias Command Config" + n + "Alias help page: http://dev.bukkit.org/server-mods/buttoncommands/pages/alias-config/" + n + "" + n + "This config lets you add aliases, or custom commands, to be executed" + n + "from alias command signs. To use them, write \"/alias <theAlias>\"" + n + "on the command sign, where <theAlias> is the alias you wantto execute." + n + "" + n + "You most likely want to check out the help page.";
 
-	ConfigClass(BCMain instance) {
+	ConfigClass(BCMain instance)
+	{
 		PLUGIN = instance;
 	}
 
-	void load() {
+	void load()
+	{
 		initConfig();
 		initWhiteList();
 		initAlias();
 	}
 
-	void initConfig() {
-		if (!PLUGIN.getDataFolder().exists()) {
+	void initConfig()
+	{
+		if (!PLUGIN.getDataFolder().exists())
+		{
 			PLUGIN.getDataFolder().mkdirs();
 		}
-		configFile = new File(PLUGIN.getDataFolder().getAbsolutePath()
-				+ File.separator + "config.yml");
+		configFile = new File(PLUGIN.getDataFolder().getAbsolutePath() + File.separator + "config.yml");
 		config = YamlConfiguration.loadConfiguration(configFile);
 
 		config.options().copyDefaults(true);
@@ -86,11 +72,14 @@ class ConfigClass {
 		config.addDefault("pluginUpdateCheck", true);
 		config.addDefault("bonus.ghostLever", false);
 
-		try {
+		try
+		{
 			if (!configFile.exists())
 				PLUGIN.getDataFolder().mkdirs();
 			config.save(configFile);
-		} catch (Exception ex) {
+		}
+		catch (Exception ex)
+		{
 			PLUGIN.getLogger().warning("Unable to save config.yml!");
 			PLUGIN.getLogger().warning("Error: " + ex.getMessage());
 		}
@@ -116,7 +105,8 @@ class ConfigClass {
 		PLUGIN.BBL.protectBlock = config.getBoolean("protect.block");
 	}
 
-	void initWhiteList() {
+	void initWhiteList()
+	{
 
 		whiteListFile = new File(PLUGIN.getDataFolder() + File.separator + "white-list.yml");
 		whiteList = YamlConfiguration.loadConfiguration(whiteListFile);
@@ -127,10 +117,14 @@ class ConfigClass {
 		boolean saveR = this.checkWhiteListList("redstone");
 		boolean saveS = this.checkWhiteListList("shared");
 
-		if (saveC || saveR || saveS) {
-			try {
+		if (saveC || saveR || saveS)
+		{
+			try
+			{
 				whiteList.save(whiteListFile);
-			} catch (IOException e) {
+			}
+			catch (IOException e)
+			{
 				PLUGIN.getLogger().warning("Failed to save white-list.yml!");
 				PLUGIN.getLogger().warning("Caused by: " + e.getMessage());
 			}
@@ -141,13 +135,14 @@ class ConfigClass {
 		List<String> red = whiteList.getStringList("redstone");
 		con.addAll(sha);
 		red.addAll(sha);
-		
+
 		PLUGIN.PIL.whiteList = new HashSet<String>(con);
 		PLUGIN.REL.whiteList = new HashSet<String>(red);
 	}
 
-	void initAlias() {
-		
+	void initAlias()
+	{
+
 		Alias.BCA.clear();
 
 		aliasFile = new File(PLUGIN.getDataFolder() + File.separator + "alias.yml");
@@ -160,7 +155,8 @@ class ConfigClass {
 		cmds.add("cmdA Herp");
 		cmds.add("cmdB Derp");
 
-		if (!aliasFile.exists()) {
+		if (!aliasFile.exists())
+		{
 			alias.set("derp.enable", false);
 			alias.set("derp.commands", new ArrayList<String>(cmds));
 			alias.set("derp.current.hasPerm", false);
@@ -172,15 +168,18 @@ class ConfigClass {
 
 			save = true;
 		}
-		else {
+		else
+		{
 			Iterator<String> ks = alias.getKeys(false).iterator();
 			ConfigurationSection cs;
 			String ke;
 			String nk;
-			while (ks.hasNext()) {
+			while (ks.hasNext())
+			{
 				ke = ks.next();
 
-				if (alias.get(ke) instanceof String) {
+				if (alias.get(ke) instanceof String)
+				{
 					if (alias.getString(ke).equalsIgnoreCase("new"))
 						alias.set(ke + ".enable", true);
 				}
@@ -189,68 +188,86 @@ class ConfigClass {
 					continue;
 
 				cs = alias.getConfigurationSection(ke);
-				if (!cs.isBoolean("enable")) {
+				if (!cs.isBoolean("enable"))
+				{
 					cs.set("enable", true);
 					save = true;
 				}
-				if (!cs.isList("commands")) {
+				if (!cs.isList("commands"))
+				{
 					cs.set("commands", new ArrayList<String>(cmds));
 					save = true;
 				}
-				if (!cs.isBoolean("current.missingPerm")) {
+				if (!cs.isBoolean("current.missingPerm"))
+				{
 					cs.set("current.missingPerm", true);
 					save = true;
 				}
-				if (!cs.isBoolean("current.hasPerm")) {
+				if (!cs.isBoolean("current.hasPerm"))
+				{
 					cs.set("current.hasPerm", false);
 					save = true;
 				}
-				if (!cs.isString("permission")) {
+				if (!cs.isString("permission"))
+				{
 					cs.set("permission", "");
 					save = true;
 				}
-				if (!cs.isBoolean("ignoreOtherPerms")) {
+				if (!cs.isBoolean("ignoreOtherPerms"))
+				{
 					cs.set("ignoreOtherPerms", false);
 					save = true;
 				}
-				if (!cs.isBoolean("ignoreWhiteList")) {
+				if (!cs.isBoolean("ignoreWhiteList"))
+				{
 					cs.set("ignoreWhiteList", false);
 					save = true;
 				}
-				if (!cs.isInt("cooldown")) {
+				if (!cs.isInt("cooldown"))
+				{
 					cs.set("cooldown", 0);
 					save = true;
 				}
 				nk = ke.trim();
-				if (!ke.equalsIgnoreCase(nk)) {
+				if (!ke.equalsIgnoreCase(nk))
+				{
 					alias.set(nk, cs);
 					alias.set(ke, null);
 				}
-				
+
 				new Alias(cs);
 			}
 		}
 
-		if (save) {
-			try {
+		if (save)
+		{
+			try
+			{
 				alias.save(aliasFile);
-			} catch (IOException e) {
+			}
+			catch (IOException e)
+			{
 				PLUGIN.getLogger().warning("Failed to save alias.yml!");
 				PLUGIN.getLogger().warning("Caused by: " + e.getMessage());
 			}
 		}
 	}
 
-	private boolean checkWhiteListList(String key) {
+	private boolean checkWhiteListList(String key)
+	{
 		List<String> l = new ArrayList<String>();
 		boolean changed = false;
-		if (!whiteList.isSet(key)) {
+		if (!whiteList.isSet(key))
+		{
 			l.add("randomCommand");
 			changed = true;
 		}
-		else if (!whiteList.isList(key)) {
-			for (String x : whiteList.getConfigurationSection(key).getKeys(false)) {
-				if (whiteList.isBoolean(key + "." + x)) {
+		else if (!whiteList.isList(key))
+		{
+			for (String x : whiteList.getConfigurationSection(key).getKeys(false))
+			{
+				if (whiteList.isBoolean(key + "." + x))
+				{
 					if (whiteList.getBoolean(key + "." + x))
 						l.add(x.trim().toLowerCase());
 				}
@@ -259,10 +276,12 @@ class ConfigClass {
 			}
 			changed = true;
 		}
-		else {
+		else
+		{
 			Iterator<String> it = whiteList.getStringList(key).iterator();
 			String val;
-			while (it.hasNext()) {
+			while (it.hasNext())
+			{
 				val = it.next();
 				l.add(val.trim().toLowerCase());
 				if (!val.equals(val.trim().toLowerCase()))

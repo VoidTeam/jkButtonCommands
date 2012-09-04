@@ -13,8 +13,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-
-class Commands implements CommandExecutor {
+class Commands implements CommandExecutor
+{
 
 	private final BCMain PLUGIN;
 
@@ -27,16 +27,19 @@ class Commands implements CommandExecutor {
 	private final ChatColor GN = ChatColor.GREEN;
 	private final ChatColor RE = ChatColor.RED;
 
-	Commands(BCMain instance) {
+	Commands(BCMain instance)
+	{
 		PLUGIN = instance;
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args)
+	{
 
 		if (cmd.getName().equalsIgnoreCase("buttoncommands"))
 			this.cmdBC(sender, args);
-		else if (sender instanceof Player) {
+		else if (sender instanceof Player)
+		{
 
 			Player player = (Player) sender;
 
@@ -56,7 +59,8 @@ class Commands implements CommandExecutor {
 		}
 		else if (cmd.getName().equalsIgnoreCase("buttoncommands"))
 			this.cmdBC(sender, args);
-		else {
+		else
+		{
 			sender.sendMessage("A player is expected.");
 			return false;
 		}
@@ -66,9 +70,12 @@ class Commands implements CommandExecutor {
 
 	/** Command: get */
 	@SuppressWarnings("deprecation")
-	private void cmdGet(Player player, String[] args) {
-		if ((player.hasPermission("buttoncommands.get"))) {
-			if (args.length > 0) {
+	private void cmdGet(Player player, String[] args)
+	{
+		if ((player.hasPermission("buttoncommands.get")))
+		{
+			if (args.length > 0)
+			{
 
 				int amount;
 				short damage;
@@ -78,66 +85,90 @@ class Commands implements CommandExecutor {
 				byte data;
 				String theStuff;
 
-				if (args.length >= 2) {
-					try {
+				if (args.length >= 2)
+				{
+					try
+					{
 						amount = Integer.parseInt(args[1]);
-					} catch (NumberFormatException e) {
+					}
+					catch (NumberFormatException e)
+					{
 						player.sendMessage(RE + "Invalid amount: " + args[1]);
 						return;
 					}
 				}
-				else {
+				else
+				{
 					amount = 1;
 				}
 
-				if (args.length >= 3) {
-					try {
+				if (args.length >= 3)
+				{
+					try
+					{
 						damage = Short.parseShort(args[2]);
-					} catch (NumberFormatException e) {
+					}
+					catch (NumberFormatException e)
+					{
 						player.sendMessage(RE + "Invalid damage: " + args[1]);
 						return;
 					}
 				}
-				else {
+				else
+				{
 					damage = 0;
 				}
 
-				if (args[0].contains(":")) {
+				if (args[0].contains(":"))
+				{
 
-					if (split.length != 2) {
+					if (split.length != 2)
+					{
 						player.sendMessage(RE + "Invalid format: " + args[0]);
 						return;
 					}
 
-					try {
+					try
+					{
 						material = Material.getMaterial(Integer.parseInt(split[0]));
-					} catch (NumberFormatException e) {
+					}
+					catch (NumberFormatException e)
+					{
 						material = Material.getMaterial(split[0].toUpperCase());
 					}
-					if (material == null) {
+					if (material == null)
+					{
 						player.sendMessage(RE + "Invalid material: " + split[0]);
 						return;
 					}
 
-					try {
+					try
+					{
 						data = Byte.parseByte(split[1]);
 						items = new ItemStack(material, amount, damage, data);
-					} catch (NumberFormatException e) {
+					}
+					catch (NumberFormatException e)
+					{
 						player.sendMessage(RE + "Invalid material data: " + split[1]);
 						return;
 					}
 
 					theStuff = material.name() + ":" + data;
 				}
-				else {
+				else
+				{
 
-					try {
+					try
+					{
 						material = Material.getMaterial(Integer.parseInt(args[0]));
-					} catch (NumberFormatException e) {
+					}
+					catch (NumberFormatException e)
+					{
 						material = Material.getMaterial(args[0].toUpperCase());
 					}
 
-					if (material == null) {
+					if (material == null)
+					{
 						player.sendMessage(RE + "Invalid material: " + split[0]);
 						return;
 					}
@@ -146,15 +177,18 @@ class Commands implements CommandExecutor {
 					theStuff = material.name();
 				}
 
-				if (args.length >= 4) {
+				if (args.length >= 4)
+				{
 
 					String[] enchArg;
 
-					for (int c = 0; c < args.length - 3; c++) {
+					for (int c = 0; c < args.length - 3; c++)
+					{
 
 						enchArg = args[c + 3].split(":");
 
-						if (enchArg.length != 2) {
+						if (enchArg.length != 2)
+						{
 							player.sendMessage(RE + "Invalid enchantment format: " + args[c + 3]);
 							continue;
 						}
@@ -162,18 +196,25 @@ class Commands implements CommandExecutor {
 						Enchantment ench;
 						int id;
 
-						try {
+						try
+						{
 							ench = Enchantment.getById(Integer.parseInt(enchArg[0]));
-						} catch (NumberFormatException e) {
+						}
+						catch (NumberFormatException e)
+						{
 							ench = Enchantment.getByName(enchArg[0].toUpperCase());
 						}
-						if (ench == null) {
+						if (ench == null)
+						{
 							player.sendMessage(RE + "Invalid enchantment: " + enchArg[0]);
 							continue;
 						}
-						try {
+						try
+						{
 							id = Integer.parseInt(enchArg[1]);
-						} catch (NumberFormatException e) {
+						}
+						catch (NumberFormatException e)
+						{
 							player.sendMessage(RE + "Invalid enchantment level: " + enchArg[1]);
 							continue;
 						}
@@ -184,9 +225,12 @@ class Commands implements CommandExecutor {
 
 				player.getInventory().addItem(items);
 
-				try {
+				try
+				{
 					player.updateInventory();
-				} catch (Throwable tr) {
+				}
+				catch (Throwable tr)
+				{
 				}
 
 				if (args.length >= 4)
@@ -199,72 +243,92 @@ class Commands implements CommandExecutor {
 				PLUGIN.getLogger().info("Added " + theStuff + " to " + player.getName() + "'s inventory.");
 				player.sendMessage(BL + theStuff + WI + " added to your inventory.");
 			}
-			else {
+			else
+			{
 				player.sendMessage(GO + "Syntax:" + WI + "/get <material[:data]> [amount] [damage] [enchantment:lvl]");
 				player.sendMessage(GO + "Tip: You can have as many enchantments as you want by adding multiple \"" + WI + "[enchantment:lvl]" + GO + "\" arguments.");
 			}
 		}
-		else {
+		else
+		{
 			player.sendMessage(RE + "You are not allowed to use the get command!");
 		}
 	}
 
 	/** Command: creative */
-	private void cmdCreative(Player player, String[] args) {
-		if (player.hasPermission("buttoncommands.gamemode")) {
+	private void cmdCreative(Player player, String[] args)
+	{
+		if (player.hasPermission("buttoncommands.gamemode"))
+		{
 
-			if (!player.getGameMode().equals(GameMode.CREATIVE)) {
+			if (!player.getGameMode().equals(GameMode.CREATIVE))
+			{
 				player.setGameMode(GameMode.CREATIVE);
 				PLUGIN.getLogger().info("Changing player " + player.getName() + "'s gamemode to " + "creative");
 				player.sendMessage("Changed gamemode to " + GO + "creative");
 			}
-			else {
+			else
+			{
 				player.sendMessage("Your gamemode is already " + GO + "creative");
 			}
 		}
-		else {
+		else
+		{
 			player.sendMessage(RE + "You are not allowed to change your gamemode!");
 		}
 	}
 
 	/** Command: survival */
-	private void cmdSurvival(Player player, String[] args) {
-		if (player.hasPermission("buttoncommands.gamemode")) {
+	private void cmdSurvival(Player player, String[] args)
+	{
+		if (player.hasPermission("buttoncommands.gamemode"))
+		{
 
-			if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
+			if (!player.getGameMode().equals(GameMode.SURVIVAL))
+			{
 				player.setGameMode(GameMode.SURVIVAL);
 				PLUGIN.getLogger().info("Changing " + player.getName() + "'s gamemode to " + "survival");
 				player.sendMessage("Changed gamemode to " + GO + "survival");
 			}
-			else {
+			else
+			{
 				player.sendMessage("Your gamemode is already " + GO + "survival");
 			}
 		}
-		else {
+		else
+		{
 			player.sendMessage(RE + "You are not allowed to change your gamemode!");
 		}
 	}
 
 	/** Command: invclear */
 	@SuppressWarnings("deprecation")
-	private void cmdInvclear(Player player, String[] args) {
-		if (player.hasPermission("buttoncommands.invclear")) {
+	private void cmdInvclear(Player player, String[] args)
+	{
+		if (player.hasPermission("buttoncommands.invclear"))
+		{
 			player.getInventory().clear();
-			try {
+			try
+			{
 				player.updateInventory();
-			} catch (Exception ex) {
+			}
+			catch (Exception ex)
+			{
 			}
 			PLUGIN.getLogger().info("Cleared " + player.getName() + "'s inventory");
 			player.sendMessage(BL + "Inventory cleared!");
 		}
-		else {
+		else
+		{
 			player.sendMessage(RE + "You are not allowed to use the invclear command!");
 		}
 	}
 
 	/** Command: itemInfo */
-	private void cmdIteminfo(Player player, String[] args) {
-		if (player.hasPermission("buttoncommands.iteminfo")) {
+	private void cmdIteminfo(Player player, String[] args)
+	{
+		if (player.hasPermission("buttoncommands.iteminfo"))
+		{
 
 			ItemStack item = player.getItemInHand();
 			Set<Enchantment> enchantments = item.getEnchantments().keySet();
@@ -278,7 +342,8 @@ class Commands implements CommandExecutor {
 			player.sendMessage(BL + "#" + GY + " Durability:  " + WI + item.getDurability());
 			player.sendMessage(BL + "#" + GY + " Enchanted: " + WI + (enchantments.size() > 0 ? "Yes" : "No"));
 
-			if (item.getEnchantments().size() > 0) {
+			if (item.getEnchantments().size() > 0)
+			{
 				player.sendMessage(BL + "#");
 				player.sendMessage(BL + "# ##" + AQ + "  Enchantments:  " + BL + "##");
 				player.sendMessage(BL + "#");
@@ -286,49 +351,60 @@ class Commands implements CommandExecutor {
 				Iterator<Enchantment> interator = enchantments.iterator();
 				Enchantment ench;
 
-				while (interator.hasNext()) {
+				while (interator.hasNext())
+				{
 					ench = interator.next();
-					player.sendMessage(BL + "# " + WI + ench.getName()
-							+ GN + " LVL " + WI + item.getEnchantmentLevel(ench));
+					player.sendMessage(BL + "# " + WI + ench.getName() + GN + " LVL " + WI + item.getEnchantmentLevel(ench));
 				}
 			}
 			player.sendMessage(BL + "#");
 		}
-		else {
+		else
+		{
 			player.sendMessage(RE + "You are not allowed to use the iteminfo command!");
 		}
 	}
 
 	/** Command: chat */
-	private void cmdChat(Player player, String[] args) {
-		if (player.hasPermission("buttoncommands.chat")) {
-			if (args.length > 0) {
+	private void cmdChat(Player player, String[] args)
+	{
+		if (player.hasPermission("buttoncommands.chat"))
+		{
+			if (args.length > 0)
+			{
 				String chatMsg = "";
-				for (int x = 0; x < args.length; x++) {
+				for (int x = 0; x < args.length; x++)
+				{
 					chatMsg = chatMsg + args[x] + (x + 1 < args.length ? " " : "");
 				}
 				player.chat(Misc.insertAll(chatMsg, player));
 			}
-			else {
+			else
+			{
 				player.sendMessage(GO + "Syntax: " + WI + "/chat <message>");
 			}
 
 		}
-		else {
+		else
+		{
 			player.sendMessage(RE + "You are not allowed to use the chat command!");
 		}
 	}
 
 	/** Command: buttoncommands */
-	private void cmdBC(CommandSender sender, String[] args) {
-		if (sender instanceof Player) {
-			if (!sender.hasPermission("buttoncommands.buttoncommands")) {
+	private void cmdBC(CommandSender sender, String[] args)
+	{
+		if (sender instanceof Player)
+		{
+			if (!sender.hasPermission("buttoncommands.buttoncommands"))
+			{
 				sender.sendMessage(RE + "You are not allowed to use the buttoncommands command!");
 				return;
 			}
 		}
 
-		if (args.length == 0) {
+		if (args.length == 0)
+		{
 			sender.sendMessage("");
 			sender.sendMessage(GN + "    >> ButtonCommands <<    ");
 			sender.sendMessage(GN + " ========================================");
@@ -340,14 +416,18 @@ class Commands implements CommandExecutor {
 			sender.sendMessage("");
 			return;
 		}
-		else if (args.length > 0) {
-			if (args[0].equalsIgnoreCase("reload")) {
-				if (sender.hasPermission("buttoncommands.buttoncommands")) {
+		else if (args.length > 0)
+		{
+			if (args[0].equalsIgnoreCase("reload"))
+			{
+				if (sender.hasPermission("buttoncommands.buttoncommands"))
+				{
 					PLUGIN.CNF.load();
 					Misc.checkVersion(PLUGIN, BCMain.UC_URL);
 					sender.sendMessage(GN + "ButtonCommands successfully reloaded!");
 				}
-				else {
+				else
+				{
 					sender.sendMessage(RE + "You are not allowed to reload ButtonCommands!");
 				}
 				return;

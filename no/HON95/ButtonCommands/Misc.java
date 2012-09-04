@@ -11,10 +11,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+public class Misc
+{
 
-public class Misc {
-
-	public static String insertAll(String line, Player player, Block block) {
+	public static String insertAll(String line, Player player, Block block)
+	{
 
 		line = insertServerVariables(line);
 		line = insertBlockVariables(line, block);
@@ -23,7 +24,8 @@ public class Misc {
 		return line;
 	}
 
-	public static String insertAll(String line, Player player) {
+	public static String insertAll(String line, Player player)
+	{
 
 		line = insertServerVariables(line);
 		line = insertPlayerVariables(line, player);
@@ -31,7 +33,8 @@ public class Misc {
 		return line;
 	}
 
-	public static String insertAll(String line, CommandSender sender, Block block) {
+	public static String insertAll(String line, CommandSender sender, Block block)
+	{
 
 		line = insertServerVariables(line);
 		line = insertBlockVariables(line, block);
@@ -40,7 +43,8 @@ public class Misc {
 		return line;
 	}
 
-	public static String insertServerVariables(String line) {
+	public static String insertServerVariables(String line)
+	{
 
 		line = line.replace("{SBV}", Bukkit.getServer().getBukkitVersion());
 		line = line.replace("{SV}", Bukkit.getServer().getVersion());
@@ -52,7 +56,8 @@ public class Misc {
 		return line;
 	}
 
-	public static String insertBlockVariables(String line, Block block) {
+	public static String insertBlockVariables(String line, Block block)
+	{
 
 		line = line.replace("{BW}", block.getWorld().getName());
 		line = line.replace("{BX}", block.getX() + "");
@@ -62,7 +67,8 @@ public class Misc {
 		return line;
 	}
 
-	public static String insertPlayerVariables(String line, Player player) {
+	public static String insertPlayerVariables(String line, Player player)
+	{
 
 		line = line.replace("{N}", player.getName());
 		line = line.replace("{PW}", player.getWorld().getName());
@@ -79,11 +85,13 @@ public class Misc {
 		return line;
 	}
 
-	public static String insertColors(String line) {
+	public static String insertColors(String line)
+	{
 		return ChatColor.translateAlternateColorCodes('&', line);
 	}
 
-	public static String[] concatCmd(String[] stArr) {
+	public static String[] concatCmd(String[] stArr)
+	{
 		StringBuilder cmdBuild = new StringBuilder();
 		String cmdFull;
 		String cmdName;
@@ -96,55 +104,69 @@ public class Misc {
 		return new String[] { cmdName, cmdFull };
 	}
 
-	public static void checkVersion(final JavaPlugin plugin, final String address) {
+	public static void checkVersion(final JavaPlugin plugin, final String address)
+	{
 
 		if (plugin == null || address == null)
 			throw new IllegalArgumentException();
 
-		Bukkit.getServer().getScheduler().scheduleAsyncDelayedTask(plugin, new Runnable() {
+		Bukkit.getServer().getScheduler().scheduleAsyncDelayedTask(plugin, new Runnable()
+		{
 
 			@Override
-			public void run() {
+			public void run()
+			{
 				String cv = plugin.getDescription().getVersion().trim();
 				String lv = null;
 				String li;
 				String[] lp;
 
-				try {
+				try
+				{
 					URL url = new URL(address);
 					BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-					while (true) {
+					while (true)
+					{
 						li = in.readLine();
 						if (li == null)
 							break;
 						if (!li.startsWith(plugin.getName()))
 							continue;
 						lp = li.split(": ");
-						if (lp.length == 2) {
-							if (lp[0].trim().equalsIgnoreCase(plugin.getName())) {
+						if (lp.length == 2)
+						{
+							if (lp[0].trim().equalsIgnoreCase(plugin.getName()))
+							{
 								lv = lp[1].trim();
 								break;
 							}
 						}
 					}
 					in.close();
-				} catch (Exception ex) {
+				}
+				catch (Exception ex)
+				{
 					plugin.getLogger().warning("Failed to check for updates: " + ex.getMessage());
 					return;
 				}
 
-				if (lv == null) {
+				if (lv == null)
+				{
 					plugin.getLogger().warning("Failed to check for updates: Didn't find plugin on file!");
 					return;
 				}
 
-				if (!cv.equalsIgnoreCase(lv)) {
-					try {
+				if (!cv.equalsIgnoreCase(lv))
+				{
+					try
+					{
 						double dc = Double.parseDouble(cv);
 						double dl = Double.parseDouble(lv);
 						if (dl <= dc)
 							return;
-					} catch (Exception ex) {
+					}
+					catch (Exception ex)
+					{
 					}
 
 					plugin.getLogger().warning("Please update from " + cv + " to " + lv);

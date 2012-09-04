@@ -9,8 +9,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockRedstoneEvent;
 
-
-class RedstoneListener implements Listener {
+class RedstoneListener implements Listener
+{
 
 	private final BCMain PLUGIN;
 	Set<String> whiteList = null;
@@ -18,12 +18,14 @@ class RedstoneListener implements Listener {
 	boolean ignoreWhiteLists = false;
 	boolean outputInfo = false;
 
-	RedstoneListener(BCMain instance) {
+	RedstoneListener(BCMain instance)
+	{
 		PLUGIN = instance;
 	}
 
 	@EventHandler
-	public void onBlockRedstoneEvent(BlockRedstoneEvent ev) {
+	public void onBlockRedstoneEvent(BlockRedstoneEvent ev)
+	{
 
 		if (!enableRedstone)
 			return;
@@ -54,7 +56,8 @@ class RedstoneListener implements Listener {
 		if (cmd[1].length() == 0)
 			return;
 
-		if (ignoreWhiteLists || whiteList.contains(cmd[0])) {
+		if (ignoreWhiteLists || whiteList.contains(cmd[0]))
+		{
 			if (outputInfo)
 				PLUGIN.getLogger().info("Executing redstone console command: " + cmd[1]);
 			PLUGIN.getServer().dispatchCommand(PLUGIN.getServer().getConsoleSender(), cmd[1]);

@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.bukkit.configuration.ConfigurationSection;
 
-
-public class Alias {
+public class Alias
+{
 
 	static final HashMap<String, Alias> BCA = new HashMap<String, Alias>();
 
@@ -21,7 +21,8 @@ public class Alias {
 	public final int COOL;
 	public final HashMap<String, Long> LOG;
 
-	Alias(ConfigurationSection cs) {
+	Alias(ConfigurationSection cs)
+	{
 
 		NAME = cs.getName();
 		ENAB = cs.getBoolean("enable");
