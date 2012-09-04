@@ -97,7 +97,7 @@ public class Misc
 		String cmdName;
 
 		for (int c = 1; c < stArr.length; c++)
-			cmdBuild.append(stArr[c]);
+			cmdBuild.append(stArr[c] + " ");
 		cmdFull = cmdBuild.toString().trim();
 		cmdName = cmdFull.split(" ", 2)[0];
 
