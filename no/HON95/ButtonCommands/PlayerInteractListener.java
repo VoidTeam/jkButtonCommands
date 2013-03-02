@@ -20,7 +20,6 @@ import org.bukkit.material.Lever;
 
 final class PlayerInteractListener implements Listener
 {
-
 	private final BCMain PLUGIN;
 	Set<String> whiteList = null;
 	boolean enableNormal = false;
@@ -32,7 +31,6 @@ final class PlayerInteractListener implements Listener
 	boolean curNoPerm = false;
 	boolean outputInfo = false;
 	boolean rightClick = false;
-	boolean leftClick = false;
 
 	int taskid = 0;
 
@@ -52,55 +50,63 @@ final class PlayerInteractListener implements Listener
 	}
 
 	@EventHandler(priority = EventPriority.LOW)
-	public void onPlayerInteract(PlayerInteractEvent ev)
+	public void onPlayerInteract(final PlayerInteractEvent ev)
 	{
 
 		if (ev.isCancelled())
 			return;
 
-		if (!((ev.getAction().equals(Action.LEFT_CLICK_BLOCK) && leftClick) || (ev.getAction().equals(Action.RIGHT_CLICK_BLOCK) && rightClick)))
+		if (!(ev.getAction().equals(Action.RIGHT_CLICK_BLOCK) && rightClick))
 			return;
 
 		if (!(enableNormal || enableConsole || enableAlias))
 			return;
 
-		Block block = ev.getClickedBlock();
-		Player player = ev.getPlayer();
+		final Block block = ev.getClickedBlock();
+		final Player player = ev.getPlayer();
 
 		if (block == null)
 			return;
 		if (!block.getType().toString().toLowerCase().contains("button"))
 			return;
 
-		BlockFace bf = ((Button) block.getState().getData()).getFacing();
-		if (bf == BlockFace.NORTH)
+		final BlockFace bf = ((Button) block.getState().getData()).getFacing();
+		
+		Bukkit.getScheduler().scheduleSyncDelayedTask(PLUGIN, new Runnable()
 		{
-			BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST };
-			BlockFace[] testFaces = { BlockFace.NORTH, BlockFace.SOUTH };
-			Block lever = block.getRelative(BlockFace.SOUTH, 3);
-			ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
-		}
-		else if (bf == BlockFace.SOUTH)
-		{
-			BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.WEST, BlockFace.EAST };
-			BlockFace[] testFaces = { BlockFace.SOUTH, BlockFace.NORTH };
-			Block lever = block.getRelative(BlockFace.NORTH, 3);
-			ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
-		}
-		else if (bf == BlockFace.EAST)
-		{
-			BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.WEST, BlockFace.NORTH, BlockFace.SOUTH };
-			BlockFace[] testFaces = { BlockFace.EAST, BlockFace.WEST };
-			Block lever = block.getRelative(BlockFace.WEST, 3);
-			ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
-		}
-		else if (bf == BlockFace.WEST)
-		{
-			BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.EAST, BlockFace.SOUTH, BlockFace.NORTH };
-			BlockFace[] testFaces = { BlockFace.WEST, BlockFace.EAST };
-			Block lever = block.getRelative(BlockFace.EAST, 3);
-			ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
-		}
+			@Override
+			public void run()
+			{
+				if (bf == BlockFace.NORTH)
+				{
+					BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST };
+					BlockFace[] testFaces = { BlockFace.NORTH, BlockFace.SOUTH };
+					Block lever = block.getRelative(BlockFace.SOUTH, 3);
+					ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
+				}
+				else if (bf == BlockFace.SOUTH)
+				{
+					BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.WEST, BlockFace.EAST };
+					BlockFace[] testFaces = { BlockFace.SOUTH, BlockFace.NORTH };
+					Block lever = block.getRelative(BlockFace.NORTH, 3);
+					ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
+				}
+				else if (bf == BlockFace.EAST)
+				{
+					BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.WEST, BlockFace.NORTH, BlockFace.SOUTH };
+					BlockFace[] testFaces = { BlockFace.EAST, BlockFace.WEST };
+					Block lever = block.getRelative(BlockFace.WEST, 3);
+					ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
+				}
+				else if (bf == BlockFace.WEST)
+				{
+					BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.EAST, BlockFace.SOUTH, BlockFace.NORTH };
+					BlockFace[] testFaces = { BlockFace.WEST, BlockFace.EAST };
+					Block lever = block.getRelative(BlockFace.EAST, 3);
+					ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
+				}
+			}
+		}, 25L);
 	}
 
 	private boolean signFinder(Player player, Block block, BlockFace[] testBlocks, BlockFace[] testFaces, final Block lever)
@@ -204,10 +210,6 @@ final class PlayerInteractListener implements Listener
 		else if (cmd[0].equalsIgnoreCase("a") && !alias)
 		{
 			return aliasExecutor(player, block, cmd[1].replaceFirst("a ", ""));
-		}
-		else if (cmd[0].equalsIgnoreCase("wsbc"))
-		{
-			return webSendExecutor(player, block, cmd[0].replaceFirst("wsbc ", ""), ignorePerms);
 		}
 		else if (enableNormal)
 		{
@@ -316,43 +318,6 @@ final class PlayerInteractListener implements Listener
 		a.LOG.put(player.getName(), System.currentTimeMillis());
 
 		return (a.C_HP ? 2 : 1);
-	}
-
-	private int webSendExecutor(Player player, Block block, String command, boolean ignorePerms)
-	{
-
-		if (enableNormal)
-		{
-			if (ignorePerms || player.hasPermission("buttoncommands.use.normal"))
-			{
-				player.chat("/ws " + command);
-
-				// taskid =
-				// Bukkit.getScheduler().scheduleAsyncRepeatingTask(PLUGIN, new
-				// Runnable() {
-
-				// public void run() {
-				// if (redstoneOn == true)
-				// {
-				// Bukkit.getScheduler().cancelTask(taskid);
-				// return (curPerm ? 2 : 1);
-				// }
-				// System.out.println("Checking for RedstoneOn");
-				// }
-				// }, 0L, 5L);
-
-				// If RedstoneOn = true then return 2, otherwise return 0
-
-				return 1;
-			}
-			else
-			{
-				player.sendMessage(RE + "You are not allowed to use WebSend command signs!");
-				return 0;
-			}
-		}
-		return 0;
-
 	}
 
 }

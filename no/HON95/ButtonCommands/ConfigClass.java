@@ -96,7 +96,6 @@ class ConfigClass
 		PLUGIN.PIL.curNoPerm = config.getBoolean("current.missingPerm");
 		PLUGIN.PIL.ignoreWhiteLists = config.getBoolean("ignoreWhiteLists");
 		PLUGIN.PIL.outputInfo = config.getBoolean("output.redstone");
-		PLUGIN.PIL.leftClick = config.getBoolean("interact.left_click");
 		PLUGIN.PIL.rightClick = config.getBoolean("interact.right_click");
 		PLUGIN.REL.enableRedstone = config.getBoolean("enabledSigns.redstone");
 		PLUGIN.REL.ignoreWhiteLists = config.getBoolean("ignoreWhiteLists");

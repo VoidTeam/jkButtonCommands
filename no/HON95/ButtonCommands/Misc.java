@@ -106,6 +106,7 @@ public class Misc
 		return new String[] { cmdName, cmdFull };
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void checkVersion(final JavaPlugin plugin, final String address)
 	{
 
