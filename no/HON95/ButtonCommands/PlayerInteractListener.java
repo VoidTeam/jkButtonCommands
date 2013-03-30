@@ -72,41 +72,34 @@ final class PlayerInteractListener implements Listener
 
 		final BlockFace bf = ((Button) block.getState().getData()).getFacing();
 		
-		Bukkit.getScheduler().scheduleSyncDelayedTask(PLUGIN, new Runnable()
+		if (bf == BlockFace.NORTH)
 		{
-			@Override
-			public void run()
-			{
-				if (bf == BlockFace.NORTH)
-				{
-					BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST };
-					BlockFace[] testFaces = { BlockFace.NORTH, BlockFace.SOUTH };
-					Block lever = block.getRelative(BlockFace.SOUTH, 3);
-					ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
-				}
-				else if (bf == BlockFace.SOUTH)
-				{
-					BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.WEST, BlockFace.EAST };
-					BlockFace[] testFaces = { BlockFace.SOUTH, BlockFace.NORTH };
-					Block lever = block.getRelative(BlockFace.NORTH, 3);
-					ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
-				}
-				else if (bf == BlockFace.EAST)
-				{
-					BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.WEST, BlockFace.NORTH, BlockFace.SOUTH };
-					BlockFace[] testFaces = { BlockFace.EAST, BlockFace.WEST };
-					Block lever = block.getRelative(BlockFace.WEST, 3);
-					ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
-				}
-				else if (bf == BlockFace.WEST)
-				{
-					BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.EAST, BlockFace.SOUTH, BlockFace.NORTH };
-					BlockFace[] testFaces = { BlockFace.WEST, BlockFace.EAST };
-					Block lever = block.getRelative(BlockFace.EAST, 3);
-					ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
-				}
-			}
-		}, 25L);
+			BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST };
+			BlockFace[] testFaces = { BlockFace.NORTH, BlockFace.SOUTH };
+			Block lever = block.getRelative(BlockFace.SOUTH, 3);
+			ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
+		}
+		else if (bf == BlockFace.SOUTH)
+		{
+			BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.WEST, BlockFace.EAST };
+			BlockFace[] testFaces = { BlockFace.SOUTH, BlockFace.NORTH };
+			Block lever = block.getRelative(BlockFace.NORTH, 3);
+			ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
+		}
+		else if (bf == BlockFace.EAST)
+		{
+			BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.WEST, BlockFace.NORTH, BlockFace.SOUTH };
+			BlockFace[] testFaces = { BlockFace.EAST, BlockFace.WEST };
+			Block lever = block.getRelative(BlockFace.WEST, 3);
+			ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
+		}
+		else if (bf == BlockFace.WEST)
+		{
+			BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.EAST, BlockFace.SOUTH, BlockFace.NORTH };
+			BlockFace[] testFaces = { BlockFace.WEST, BlockFace.EAST };
+			Block lever = block.getRelative(BlockFace.EAST, 3);
+			ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
+		}
 	}
 
 	private boolean signFinder(Player player, Block block, BlockFace[] testBlocks, BlockFace[] testFaces, final Block lever)
