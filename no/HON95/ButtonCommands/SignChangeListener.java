@@ -38,15 +38,13 @@ class SignChangeListener implements Listener
 
 		if (lines[1].startsWith("/"))
 		{
-
 			String[] cmd = Misc.concatCmd(lines);
 
 			if (cmd[1].equalsIgnoreCase("/c") || cmd[1].equalsIgnoreCase("/console") || cmd[1].equalsIgnoreCase("/r") || cmd[1].equalsIgnoreCase("/redstone") || cmd[1].equalsIgnoreCase("/a") || cmd[1].equalsIgnoreCase("/alias"))
 				player.sendMessage(DP + "Command signs must contain a command!");
 
-			if (cmd[0].startsWith("/redstone ") || cmd[0].startsWith("/r "))
+			if (cmd[1].startsWith("/redstone ") || cmd[1].startsWith("/r "))
 			{
-
 				if (player.hasPermission("buttoncommands.create.redstone"))
 				{
 					lines[0] = ft(lines[0]);
@@ -57,11 +55,11 @@ class SignChangeListener implements Listener
 				{
 					ev.setCancelled(true);
 					player.sendMessage(RE + "You are not allowed to create redstone command signs!");
+					return;
 				}
 			}
-			else if (cmd[0].startsWith("/console ") || cmd[0].startsWith("/c "))
+			else if (cmd[1].startsWith("/console ") || cmd[1].startsWith("/c "))
 			{
-
 				if (player.hasPermission("buttoncommands.create.console"))
 				{
 					lines[0] = ft(lines[0]);
@@ -72,11 +70,11 @@ class SignChangeListener implements Listener
 				{
 					ev.setCancelled(true);
 					player.sendMessage(RE + "You are not allowed to create console command signs!");
+					return;
 				}
 			}
-			else if (cmd[0].startsWith("/alias ") || cmd[0].startsWith("/a "))
+			else if (cmd[1].startsWith("/alias ") || cmd[1].startsWith("/a "))
 			{
-
 				if (player.hasPermission("buttoncommands.create.alias"))
 				{
 					lines[0] = ft(lines[0]);
@@ -87,11 +85,11 @@ class SignChangeListener implements Listener
 				{
 					ev.setCancelled(true);
 					player.sendMessage(RE + "You are not allowed to create alias command signs!");
+					return;
 				}
 			}
 			else
 			{
-
 				if (player.hasPermission("buttoncommands.create.normal"))
 				{
 					lines[0] = ft(lines[0]);
@@ -102,6 +100,7 @@ class SignChangeListener implements Listener
 				{
 					ev.setCancelled(true);
 					player.sendMessage(RE + "You are not allowed to create command signs!");
+					return;
 				}
 			}
 		}

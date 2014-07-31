@@ -52,56 +52,92 @@ final class PlayerInteractListener implements Listener
 	@EventHandler(priority = EventPriority.LOW)
 	public void onPlayerInteract(final PlayerInteractEvent ev)
 	{
-
-		if (ev.isCancelled())
-			return;
-
-		if (!(ev.getAction().equals(Action.RIGHT_CLICK_BLOCK) && rightClick))
-			return;
-
-		if (!(enableNormal || enableConsole || enableAlias))
-			return;
-
 		final Block block = ev.getClickedBlock();
 		final Player player = ev.getPlayer();
 
 		if (block == null)
 			return;
-		if (!block.getType().toString().toLowerCase().contains("button"))
-			return;
+		else if (block.getType().toString().toLowerCase().contains("lever"))
+		{
+			Block signblock1 = block.getRelative(BlockFace.SOUTH, 1);
+			Block signblock2 = block.getRelative(BlockFace.NORTH, 1);
+			Block signblock3 = block.getRelative(BlockFace.WEST, 1);
+			Block signblock4 = block.getRelative(BlockFace.EAST, 1);
+			Sign sign = null;
+			//Lever lever = (Lever) block.getState().getData();
 
-		final BlockFace bf = ((Button) block.getState().getData()).getFacing();
-		
-		if (bf == BlockFace.NORTH)
-		{
-			BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST };
-			BlockFace[] testFaces = { BlockFace.NORTH, BlockFace.SOUTH };
-			Block lever = block.getRelative(BlockFace.SOUTH, 3);
-			ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
+			if (signblock1.getState() instanceof Sign)
+				sign = (Sign) signblock1.getState();
+			else if (signblock2.getState() instanceof Sign)
+				sign = (Sign) signblock2.getState();
+			else if (signblock3.getState() instanceof Sign)
+				sign = (Sign) signblock3.getState();
+			else if (signblock4.getState() instanceof Sign)
+				sign = (Sign) signblock4.getState();
+			else
+				return;
+			
+			String[] lines = sign.getLines();
+			if (lines[1].startsWith("/"))
+			{
+				ev.setCancelled(true);
+				return;
+			}
+			else
+				return;
 		}
-		else if (bf == BlockFace.SOUTH)
+		else if (block.getType().toString().toLowerCase().contains("button"))
 		{
-			BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.WEST, BlockFace.EAST };
-			BlockFace[] testFaces = { BlockFace.SOUTH, BlockFace.NORTH };
-			Block lever = block.getRelative(BlockFace.NORTH, 3);
-			ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
+			if (ev.isCancelled())
+				return;
+
+			if (!(ev.getAction().equals(Action.RIGHT_CLICK_BLOCK) && rightClick))
+				return;
+
+			if (!(enableNormal || enableConsole || enableAlias))
+				return;
+			
+			if (((Button) block.getState().getData()).isPowered())
+				return;
+			
+			final BlockFace bf = ((Button) block.getState().getData()).getFacing();
+			
+			if (bf == BlockFace.NORTH)
+			{
+				BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST };
+				BlockFace[] testFaces = { BlockFace.NORTH, BlockFace.SOUTH };
+				Block lever = block.getRelative(BlockFace.SOUTH, 3);
+				ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
+			}
+			else if (bf == BlockFace.SOUTH)
+			{
+				BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.WEST, BlockFace.EAST };
+				BlockFace[] testFaces = { BlockFace.SOUTH, BlockFace.NORTH };
+				Block lever = block.getRelative(BlockFace.NORTH, 3);
+				ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
+			}
+			else if (bf == BlockFace.EAST)
+			{
+				BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.WEST, BlockFace.NORTH, BlockFace.SOUTH };
+				BlockFace[] testFaces = { BlockFace.EAST, BlockFace.WEST };
+				Block lever = block.getRelative(BlockFace.WEST, 3);
+				ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
+			}
+			else if (bf == BlockFace.WEST)
+			{
+				BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.EAST, BlockFace.SOUTH, BlockFace.NORTH };
+				BlockFace[] testFaces = { BlockFace.WEST, BlockFace.EAST };
+				Block lever = block.getRelative(BlockFace.EAST, 3);
+				ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
+			}
 		}
-		else if (bf == BlockFace.EAST)
+		else
 		{
-			BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.WEST, BlockFace.NORTH, BlockFace.SOUTH };
-			BlockFace[] testFaces = { BlockFace.EAST, BlockFace.WEST };
-			Block lever = block.getRelative(BlockFace.WEST, 3);
-			ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
-		}
-		else if (bf == BlockFace.WEST)
-		{
-			BlockFace[] testBlocks = { BlockFace.UP, BlockFace.DOWN, BlockFace.EAST, BlockFace.SOUTH, BlockFace.NORTH };
-			BlockFace[] testFaces = { BlockFace.WEST, BlockFace.EAST };
-			Block lever = block.getRelative(BlockFace.EAST, 3);
-			ev.setCancelled(signFinder(player, block, testBlocks, testFaces, lever));
+			return;
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private boolean signFinder(Player player, Block block, BlockFace[] testBlocks, BlockFace[] testFaces, final Block lever)
 	{
 
@@ -135,8 +171,9 @@ final class PlayerInteractListener implements Listener
 				if (lever.getType() != Material.LEVER)
 					return n;
 				Lever l = (Lever) lever.getState().getData();
-				if (l.isPowered())
-					return n;
+				//if (l.isPowered())
+				//	return n;
+				l.setPowered(false);
 				l.setPowered(true);
 				lever.setData(l.getData());
 				lever.getWorld().playEffect(lever.getLocation(), Effect.SMOKE, 4);

@@ -1,6 +1,6 @@
 name: ButtonCommands
 main: no.HON95.ButtonCommands.BCMain
-version: 1.8
+version: 1.9
 author: HON95
 website: http://dev.bukkit.org/server-mods/buttoncommands/
 description: Sends a command through a button.

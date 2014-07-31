@@ -84,8 +84,8 @@ class ConfigClass
 			PLUGIN.getLogger().warning("Error: " + ex.getMessage());
 		}
 
-		PLUGIN.enable = config.getBoolean("pluginUpdateCheck");
-		PLUGIN.updateCheck = config.getBoolean("enable");
+		PLUGIN.enable = config.getBoolean("enable");
+		PLUGIN.updateCheck = config.getBoolean("pluginUpdateCheck");
 		PLUGIN.SCL.titleUnderlined = config.getBoolean("signTitleUnderlined");
 		PLUGIN.SCL.titleCentered = config.getBoolean("signTitleCentered");
 		PLUGIN.PIL.enableNormal = config.getBoolean("enabledSigns.normal");

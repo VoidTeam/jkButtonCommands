@@ -325,6 +325,7 @@ class Commands implements CommandExecutor
 	}
 
 	/** Command: itemInfo */
+	@SuppressWarnings("deprecation")
 	private void cmdIteminfo(Player player, String[] args)
 	{
 		if (player.hasPermission("buttoncommands.iteminfo"))
